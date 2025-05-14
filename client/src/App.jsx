@@ -5,7 +5,7 @@ function App() {
   const [ping, setPing] = useState('');
 
   useEffect(() => {
-    axios.get('/api/ping')
+    axios.get('https://event-backend-zgcz.onrender.com/api/ping')
       .then(res => setPing(res.data.message))
       .catch(() => setPing('Error connecting to backend'));
   }, []);
