@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div>
-      <h1>Frontend</h1>
+      <h1>Frontend-app</h1>
       <p>Backend says: {ping}</p>
     </div>
   );
