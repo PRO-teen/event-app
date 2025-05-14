@@ -1,0 +1,27 @@
+# Node.js
+node_modules/
+.env
+.env.local
+npm-debug.log*
+
+# Vite/React build output
+client/dist/
+
+# Express build (if any)
+server/build/
+
+# OS/system files
+.DS_Store
+Thumbs.db
+
+# IDEs/editors
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Optional: ignore uploads/temp folders
+uploads/
+tmp/
