@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Courses from "./pages/Courses";
 import MyCourses from "./pages/MyCourses";
+import Create from "./pages/Create";
 import Login from "./pages/Login";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/my-courses" element={<MyCourses />} />
+           <Route path="/create" element={<Create/>} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </div>

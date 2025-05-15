@@ -21,6 +21,10 @@ mongoose.connect(process.env.MONGO_URL, {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
 
+const courseRoutes = require('./routes/course');
+app.use('/api/courses', courseRoutes);
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
