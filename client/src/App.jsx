@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import './index.css'
 import axios from 'axios';
 
 function App() {
@@ -12,10 +13,18 @@ function App() {
 
   return (
     <div>
-      <h1>this is Frontend</h1>
+      <h1 className='bg-red-300'>this is Frontend</h1>
       <p>Backend says: {ping}</p>
     </div>
   );
 }
 
 export default App;
+
+
+
+
+
+
+
+
