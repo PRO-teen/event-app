@@ -1,30 +1,25 @@
-import { useEffect, useState } from 'react';
-import './index.css'
-import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import './index.css';
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Courses from "./pages/Courses";
+import MyCourses from "./pages/MyCourses";
+import Login from "./pages/Login";
 
 function App() {
-  const [ping, setPing] = useState('');
-
-  useEffect(() => {
-    axios.get('https://event-backend-zgcz.onrender.com/api/ping')
-      .then(res => setPing(res.data.message))
-      .catch(() => setPing('Error connecting to backend'));
-  }, []);
-
   return (
-    <div>
-      <h1 className='bg-red-300'>this is Frontend</h1>
-      <p>Backend says: {ping}</p>
-    </div>
+    <Router>
+      <Navbar />
+      <div className="p-6">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/my-courses" element={<MyCourses />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
 export default App;
-
-
-
-
-
-
-
-
