@@ -24,10 +24,11 @@ function Create() {
 
     try {
       await axios.post('https://event-backend-zgcz.onrender.com/api/courses', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
+
 
       setMessage('✅ Course created successfully!');
       // Reset form

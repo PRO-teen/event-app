@@ -1,35 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const Course = require('../models/Course'); // you'll need this schema
+const Course = require('../models/Course');
 
-// For storing images locally (or you can configure for cloud storage)
-const storage = multer.memoryStorage(); // or diskStorage
+// Memory storage just for now (later: upload to Cloudinary or similar)
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// POST /api/courses
 router.post('/', upload.single('image'), async (req, res) => {
   try {
     const { title, desc, price } = req.body;
-    const image = req.file;
 
-    if (!title || !desc || !price || !image) {
-      return res.status(400).json({ message: 'All fields are required' });
+    if (!req.file) {
+      return res.status(400).json({ message: 'Image is required' });
     }
 
-    // For now, let's just save text fields. We'll handle image upload later.
     const newCourse = new Course({
       title,
       desc,
       price,
-      image: image.originalname, // just storing name for now
+      image: req.file.originalname, // temporarily storing image filename
     });
 
     await newCourse.save();
-    res.status(201).json({ message: 'Course created successfully' });
+    res.status(201).json({ message: '✅ Course created successfully' });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error creating course' });
+    console.error('Error creating course:', err);
+    res.status(500).json({ message: '❌ Error creating course' });
   }
 });
 
