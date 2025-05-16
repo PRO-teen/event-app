@@ -21,7 +21,7 @@ function Create() {
     formData.append('price', price);
 
     try {
-     await axios.post('https://event-backend-zgcz.onrender.com/api/courses', formData, {
+     await axios.post('https://event-app-wf08.onrender.com/api/courses', formData, {
   headers: {
     'Content-Type': 'application/json',
   },
