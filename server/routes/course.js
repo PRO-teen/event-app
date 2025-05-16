@@ -1,32 +1,25 @@
 const express = require('express');
-const router = express.Router();
 const multer = require('multer');
+const router = express.Router();
 const Course = require('../models/Course');
 
-// Memory storage just for now (later: upload to Cloudinary or similar)
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+const storage = multer.memoryStorage(); // or diskStorage
+const upload = multer({ storage: storage });
 
 router.post('/', upload.single('image'), async (req, res) => {
   try {
     const { title, desc, price } = req.body;
-
-    if (!req.file) {
-      return res.status(400).json({ message: 'Image is required' });
-    }
-
     const newCourse = new Course({
       title,
       desc,
       price,
-      image: req.file.originalname, // temporarily storing image filename
+      image: req.file ? req.file.originalname : '', // optional
     });
-
     await newCourse.save();
-    res.status(201).json({ message: '✅ Course created successfully' });
+    res.status(201).json({ message: 'Course created!' });
   } catch (err) {
-    console.error('Error creating course:', err);
-    res.status(500).json({ message: '❌ Error creating course' });
+    console.error(err);
+    res.status(500).json({ message: 'Failed to create course' });
   }
 });
 
