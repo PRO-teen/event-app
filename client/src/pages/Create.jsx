@@ -6,12 +6,11 @@ function Create() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState('');
-  const [image, setImage] = useState(null);
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !desc || !price || !image) {
+    if (!title || !desc || !price) {
       setMessage("Please fill all fields");
       return;
     }
@@ -20,22 +19,18 @@ function Create() {
     formData.append('title', title);
     formData.append('desc', desc);
     formData.append('price', price);
-    formData.append('image', image);
 
     try {
-      await axios.post('https://event-backend-zgcz.onrender.com/api/courses', formData, {
+     await axios.post('https://event-backend-zgcz.onrender.com/api/courses', formData, {
   headers: {
-    'Content-Type': 'multipart/form-data',
+    'Content-Type': 'application/json',
   },
 });
-
-
       setMessage('✅ Course created successfully!');
       // Reset form
       setTitle('');
       setDesc('');
       setPrice('');
-      setImage(null);
       setCreateClicked(false);
     } catch (err) {
       console.error(err);
@@ -58,12 +53,6 @@ function Create() {
           className="bg-gray-900 p-6 rounded-lg shadow-md w-full max-w-md space-y-4"
         >
           <h2 className="text-2xl font-bold text-center mb-4">Create Course</h2>
-
-          <input
-            type="file"
-            onChange={(e) => setImage(e.target.files[0])}
-            className="w-full text-white"
-          />
 
           <input
             type="text"
