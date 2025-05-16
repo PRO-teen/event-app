@@ -1,11 +1,10 @@
-// models/Course.js
 const mongoose = require('mongoose');
 
-const CourseSchema = new mongoose.Schema({
+const courseSchema = new mongoose.Schema({
   title: String,
   desc: String,
   price: Number,
-  image: String, // or Buffer if you're saving it differently
+  image: String, // or image: Buffer if you store actual image data
 });
 
-module.exports = mongoose.model('Course', CourseSchema);
+module.exports = mongoose.model('Course', courseSchema);
