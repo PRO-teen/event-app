@@ -6,12 +6,13 @@ function Create() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState('');
+  const [image, setImage] = useState(null); // NEW: for storing selected image
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !desc || !price) {
-      setMessage("Please fill all fields");
+    if (!title || !desc || !price || !image) {
+      setMessage("❗ Please fill all fields including image.");
       return;
     }
 
@@ -19,18 +20,20 @@ function Create() {
     formData.append('title', title);
     formData.append('desc', desc);
     formData.append('price', price);
+    formData.append('image', image); // append image
 
     try {
-     await axios.post('https://event-app-wf08.onrender.com/api/courses', formData, {
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+      await axios.post('https://event-app-wf08.onrender.com/api/courses', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       setMessage('✅ Course created successfully!');
       // Reset form
       setTitle('');
       setDesc('');
       setPrice('');
+      setImage(null);
       setCreateClicked(false);
     } catch (err) {
       console.error(err);
@@ -75,6 +78,14 @@ function Create() {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             placeholder="Price (₹)"
+            className="w-full p-2 rounded bg-gray-800 text-white"
+          />
+
+          {/* 📸 Image Input */}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
             className="w-full p-2 rounded bg-gray-800 text-white"
           />
 
