@@ -6,14 +6,14 @@ function Create() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState('');
-  const [image, setImage] = useState(null);
   const [message, setMessage] = useState('');
   const [courses, setCourses] = useState([]);
 
+  // Fetch all courses
   const fetchCourses = async () => {
     try {
       const res = await axios.get('https://event-app-wf08.onrender.com/api/courses');
-      setCourses(res.data);
+      setCourses(res.data); // assume response is an array of course objects
     } catch (err) {
       console.error('Error fetching courses:', err);
     }
@@ -25,8 +25,8 @@ function Create() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !desc || !price || !image) {
-      setMessage('Please fill all fields and select an image');
+    if (!title || !desc || !price) {
+      setMessage("Please fill all fields");
       return;
     }
 
@@ -34,22 +34,16 @@ function Create() {
     formData.append('title', title);
     formData.append('desc', desc);
     formData.append('price', price);
-    formData.append('image', image);
+    // If you're using an image later, also append it here
 
     try {
-      await axios.post('https://event-app-wf08.onrender.com/api/courses', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
+      await axios.post('https://event-app-wf08.onrender.com/api/courses', formData);
       setMessage('✅ Course created successfully!');
       setTitle('');
       setDesc('');
       setPrice('');
-      setImage(null);
       setCreateClicked(false);
-      fetchCourses();
+      fetchCourses(); // Refresh the list
     } catch (err) {
       console.error(err);
       setMessage('❌ Failed to create course');
@@ -69,7 +63,6 @@ function Create() {
         <form
           onSubmit={handleSubmit}
           className="bg-gray-900 p-6 rounded-lg shadow-md w-full max-w-md space-y-4"
-          encType="multipart/form-data"
         >
           <h2 className="text-2xl font-bold text-center mb-4">Create Course</h2>
 
@@ -97,13 +90,6 @@ function Create() {
             className="w-full p-2 rounded bg-gray-800 text-white"
           />
 
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setImage(e.target.files[0])}
-            className="w-full p-2 rounded bg-gray-800 text-white"
-          />
-
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded text-white font-semibold"
@@ -121,19 +107,12 @@ function Create() {
         {courses.length === 0 ? (
           <p className="text-center text-gray-400">No courses created yet.</p>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-y-3">
             {courses.map((course) => (
               <li key={course._id} className="bg-gray-800 p-4 rounded shadow">
                 <h4 className="text-lg font-bold">{course.title}</h4>
                 <p>{course.desc}</p>
                 <p className="text-sm text-gray-400">₹{course.price}</p>
-                {course.imageUrl && (
-                  <img
-                    src={`https://event-app-wf08.onrender.com/uploads/${course.imageUrl}`}
-                    alt={course.title}
-                    className="mt-2 rounded w-full max-h-60 object-cover"
-                  />
-                )}
               </li>
             ))}
           </ul>

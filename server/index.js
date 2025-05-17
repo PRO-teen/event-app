@@ -1,28 +1,20 @@
-require("dotenv").config();
 const express = require("express");
-const session = require("express-session");
-const passport = require("passport");
+// const session = require("express-session");
+// const passport = require("passport");
 const mongoose = require('mongoose')
 const cors = require("cors");
 const app = express();
 
-require("./config/passport");
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use("/auth", require("./routes/auth"));
+require("dotenv").config();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
 
-app.get('/api/ping', (req, res) => {
-  res.json({ message: 'pong from backend working' });
-});
+// app.get('/api/ping', (req, res) => {
+//   res.json({ message: 'pong from backend working' });
+// });
 
 
 mongoose.connect(process.env.MONGO_URL, {
