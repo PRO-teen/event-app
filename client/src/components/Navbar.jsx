@@ -1,22 +1,54 @@
-import { NavLink } from "react-router-dom";
+// src/components/Navbar.js
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "../axios";
 
-export default function Navbar() {
-  const linkClass = ({ isActive }) =>
-    `px-4 py-2 text-white font-medium hover:text-blue-400 ${
-      isActive ? "border-b-2 border-blue-400" : ""
-    }`;
+const Navbar = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("/auth/me")
+      .then((res) => setUser(res.data))
+      .catch(() => setUser(null));
+  }, []);
+
+  const handleLogout = () => {
+    window.open("https://event-app-wf08.onrender.com/auth/logout", "_self");
+  };
 
   return (
-    <nav className="bg-gray-900 shadow-md px-6 py-4 flex justify-between items-center">
-      <div className="text-2xl font-bold text-white">Learn</div>
+    <nav className="bg-gray-900 text-white px-6 py-4 flex justify-between items-center">
+      <div className="text-2xl font-bold">
+        <Link to="/">CourseHub</Link>
+      </div>
+
       <div className="flex space-x-6">
-        <NavLink to="/" className={linkClass}>Home</NavLink>
-        <NavLink to="/courses" className={linkClass}>Courses</NavLink>
-        <NavLink to="/my-courses" className={linkClass}>My Courses</NavLink>
-        <NavLink to="/create" className={linkClass}>Create</NavLink>
-        <NavLink to="/login" className={linkClass}>Login</NavLink>
-         
+        <Link to="/" className="hover:text-gray-300">Home</Link>
+        <Link to="/courses" className="hover:text-gray-300">Courses</Link>
+        <Link to="/create" className="hover:text-gray-300">Create</Link>
+        <Link to="/my-courses" className="hover:text-gray-300">My Courses</Link>
+      </div>
+
+      <div className="flex items-center space-x-4">
+        {user ? (
+          <>
+            <span className="text-sm text-gray-300">{user.displayName}</span>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link to="/login" className="bg-green-600 px-3 py-1 rounded hover:bg-green-700">
+            Login
+          </Link>
+        )}
       </div>
     </nav>
   );
-}
+};
+
+export default Navbar;
