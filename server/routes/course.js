@@ -20,9 +20,9 @@ router.post('/', upload.single('image'), async (req, res) => {
       desc,
       price,
       image: {
-        data: image.buffer,
-        contentType: image.mimetype,
-      },
+      data: image.buffer,
+      contentType: image.mimetype,
+    }
     });
 
     await course.save();
