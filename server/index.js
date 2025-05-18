@@ -1,6 +1,10 @@
 const express = require("express");
 const mongoose = require('mongoose')
 const cors = require("cors");
+const session = require('express-session');
+const passport = require('passport');
+require('./passport');
+const authRoutes = require("./routes/auth");
 const app = express();
 
 
@@ -10,6 +14,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(session({
+  secret: 'keyboard cat', // 🔒 secure this in env
+  resave: false,
+  saveUninitialized: true,
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 //datbase
 mongoose.connect(process.env.MONGO_URL, {
@@ -22,8 +34,12 @@ mongoose.connect(process.env.MONGO_URL, {
 
 //routes
 
+//courses create
 const courseRoutes = require('./routes/course');
 app.use('/api/courses', courseRoutes);
+
+//auth
+app.use('/auth', authRoutes);
 
 
 //port
