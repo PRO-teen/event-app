@@ -24,7 +24,7 @@ router.get("/google/callback",
 // Logout route
 router.get("/logout", (req, res) => {
   req.logout(() => {
-    res.redirect("https://event-frontend-hkq4.onrender.com/");
+    res.redirect("https://event-frontend-hkq4.onrender.com");
   });
 });
 

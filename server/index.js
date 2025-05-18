@@ -11,7 +11,7 @@ require("dotenv").config();
 const app = express();
 
 app.use(cors({
-  origin: "https://event-frontend-hkq4.onrender.com/",
+  origin: "https://event-frontend-hkq4.onrender.com",
   credentials: true,
 }));
 app.use(express.json());
