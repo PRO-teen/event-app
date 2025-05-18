@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-
 function Create() {
   const [createClicked, setCreateClicked] = useState(false);
   const [title, setTitle] = useState('');
