@@ -2,24 +2,26 @@ const express = require("express");
 const mongoose = require('mongoose')
 const cors = require("cors");
 const session = require('express-session');
-const passport = require('passport');
-require('./passport');
+const passport = require('./config/passport')
 const authRoutes = require("./routes/auth");
-const app = express();
 
 
 //uses
 require("dotenv").config();
-app.use(cors());
+const app = express();
+
+app.use(cors({
+  origin: "https://event-frontend-hkq4.onrender.com/",
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: 'keyboard cat', // 🔒 secure this in env
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
