@@ -1,43 +1,42 @@
-import { useState } from 'react';
+import {useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Create() {
   const [createClicked, setCreateClicked] = useState(false);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState('');
-  const [image, setImage] = useState(null); // NEW: for storing selected image
+  // const [image, setImage] = useState(null); // NEW: for storing selected image
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!title || !desc || !price || !image) {
-      setMessage("❗ Please fill all fields including image.");
-      return;
+   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
     }
+  }, [navigate]);
 
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('desc', desc);
-    formData.append('price', price);
-    formData.append('image', image); // append image
-
+ const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      await axios.post('https://event-app-wf08.onrender.com/api/courses', formData, {
+      const token = localStorage.getItem('token');
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('desc', desc);
+      formData.append('price', price);
+      //  formData.append('image', image);
+      // append image if needed
+
+      await axios.post('/api/courses', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+          'Authorization': `Bearer ${token}`,
+        }
       });
-      setMessage('✅ Course created successfully!');
-      // Reset form
-      setTitle('');
-      setDesc('');
-      setPrice('');
-      setImage(null);
-      setCreateClicked(false);
+      setMessage("Course created!");
     } catch (err) {
-      console.error(err);
-      setMessage('❌ Failed to create course');
+      setMessage("Creation failed");
     }
   };
 
