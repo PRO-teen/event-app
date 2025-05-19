@@ -17,7 +17,7 @@ router.get("/google/callback",
   }),
   (req, res) => {
     // Redirect after successful login
-    res.redirect("https://event-frontend-hkq4.onrender.com");
+    res.redirect("https://event-frontend-hkq4.onrender.com/login");
   }
 );
 
