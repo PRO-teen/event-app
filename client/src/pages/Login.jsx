@@ -1,7 +1,7 @@
 // src/pages/Login.js
 const Login = () => {
   const handleGoogleLogin = () => {
-    window.open('https://event-app-wf08.onrender.com/auth/google/', '_self');
+    window.open('https://event-app-wf08.onrender.com/auth/google', '_self');
   };
 
   return (
