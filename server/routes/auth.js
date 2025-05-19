@@ -10,17 +10,12 @@ router.get("/google",
 );
 
 // Google callback URL
-router.get("/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "https://event-frontend-hkq4.onrender.com/login",
-    session: true
-  }),
-  (req, res) => {
-    // Redirect after successful login
-    res.redirect("https://event-frontend-hkq4.onrender.com");
-  }
+router.get("/google",
+  passport.authenticate("google", { 
+    scope: ["profile", "email"],
+    callbackURL: "https://event-app-wf08.onrender.com/auth/google/callback" // ← MUST match Google Cloud Console
+  })
 );
-
 // Logout route
 router.get("/logout", (req, res) => {
   req.logout(() => {
