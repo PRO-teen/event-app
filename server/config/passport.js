@@ -8,7 +8,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://event-app-wf08.onrender.com/auth/google/callback",
+      callbackURL: "/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
       // You can save the user to a database here
